@@ -1,0 +1,61 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.20-M1'
+    id "org.jetbrains.kotlin.plugin.spring" version '1.6.20-M1'
+    id "org.jetbrains.kotlin.plugin.jpa" version '1.6.20-M1'
+    id "org.jetbrains.kotlin.plugin.allopen" version '1.6.20-M1'
+}
+
+group = 'ru.myapp.micro.planner'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2021.0.0")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.cloud:spring-cloud-starter-feign:1.4.7.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'ru.myapp.micro.planner:planner-entity'
+    implementation 'ru.myapp.micro.planner:planner-utils'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit:3.1.5'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // драйвер БД
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // для корректной работы kotlin классов в spring приложении
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
